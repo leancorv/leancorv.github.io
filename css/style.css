@@ -1,0 +1,870 @@
+/* Paleta de colores:
+Naranja: #FFBF00
+ROJO: #FF003C
+LINEAR-GRADIENT: TO BOTTOM, DESDE NARANJA, A ROJO
+NEGRO: #141414 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #141414;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    /* min-height: 200vh; */
+}
+
+/* Iconos */
+i {
+    width: 20px;
+    height: 20px;
+}
+
+/* NAVBAR */
+
+.navbar{
+    position: sticky;
+    top: 0;
+    display: flex;
+    padding: 0 4%;
+    min-height: 68px;
+    align-items: center;
+    font-size: small;
+    /* background-color: blueviolet; */
+    z-index: 150; /* para que esté por encima del header(pelicula principal)*/
+}
+
+.navbar_logo {
+    display: flex;
+}
+
+.navbar_logo > a > img {
+    height: 36px;
+}
+
+.navbar_browse {
+    flex: 1 0 auto;
+    /* parametro 1 (agranda todo lo que quieras en la pagina) 0 (le dice que no se achique nunca de su espacio) auto (que decida que espacio va a ocupar) */
+    /* flex: <flex-grow> <flex-shrink> <flex-basis> */
+    margin-left: 32px;
+}
+
+.navbar_browse > ul {
+    list-style: none;
+}
+
+.navbar_browse > ul > li {
+    display: inline;
+    margin-left: 16px;
+}
+
+.navbar_browse > ul > li:first-child {
+    margin-left: 0;
+}
+
+.navbar_browse > ul > li:not(.navbar_browse-activo) > a:hover {
+    /* aplica a todos los li menos el activo porque ese ya esta"seleccionado" y queremos que al resto se le apliquen los efectos hover*/
+    color: gray;
+}
+
+.navbar_browse > ul > li > a {
+    text-decoration: none;
+    transition: all 200ms ease-in; /*transicion para que el hover sea mas suave */
+    color: inherit;   /*Blanco del body */
+}
+
+.navbar_browse-activo {
+    font-weight: bold;
+}
+
+.navbar_menu {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.navbar_menu > * { /* de i cambiamos a * para que el margin tambien afecte a el search hecho con javascript*/
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.navbar_menu > i:last-child {
+    margin-right: 0;
+}
+
+.navbar_menu_search {
+    display: flex;
+    align-items: baseline;
+    position: relative;
+}
+
+.navbar_menu_search > #searchInput { /* se usa el id como hijo y no directamente porque al crearse una pagina de una seccion por ejemplo  "Series" podriamos llegar a usar un id con el mismo valor y podria generar conflicto */
+    border: 1px solid #fafafa;
+    background-color: rgb(69, 69, 69);
+    padding: 4px 8px;
+    outline: none;
+    color: white;
+    border-radius: 4px;
+    margin-right: 16px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.4s ease-in;
+}
+
+.search_list_container {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background: rgb(71, 71, 71);
+    width: 100%;
+    border-radius: 10px;
+    display: none;
+}
+
+.search_list_container > ul {
+    list-style: none;
+}
+
+.search_list_container > ul > li {
+    padding: 16px 12px;
+    border-bottom: 1px solid #fafafa;
+}
+
+.search_list_container > ul > li:last-child {
+    border-bottom: 0;
+}
+
+/* DROPDOWN*/
+.link {
+    background: none;
+    border: none;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.link > img{
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+}
+
+.dropdown.active > .link,
+.link:hover {
+    color: gray;
+}
+
+.link:hover {
+    color: gray;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    left: -150px;
+    width: max-content;
+    top: calc(100% + .25rem);
+    background-color: rgba(20, 20, 20, 0.9);
+    padding: .75rem;
+    border-radius: .25rem;
+    box-shadow: 0 2px 10px 0 rgba(9, 9, 9, 1);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.dropdown.active > .link + .dropdown-menu{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.information-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.dropdown-menu > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-links {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.dropdown-links li a i,
+.dropdown-links li a img {
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin-right: 10px;
+}
+
+
+/* NAVBAR MOBILE */
+
+#tablet__browse-dropdown {
+    display: none;
+}
+
+/* BOTTOM NAVBAR (Para small devices) */
+.bottom__nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(20,20,20,1);
+    box-shadow: 0 -1px 12px rgba(9, 9, 9, 1);
+    width: 100%;
+    /* height: 4rem; */
+    padding: 0.3rem 1rem;
+    align-content: center;
+    border-radius: 0.9rem 0.9rem 0 0;
+    transition: .4s;
+    z-index: 9999;
+}
+  
+.nav__list, 
+.nav__link {
+    display: flex;
+}
+
+.nav__link {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 4px;
+    color: white;
+    text-decoration: none;
+}
+
+.nav__list {
+    justify-content: space-around;
+    list-style: none;
+}
+
+.nav__link > i {
+    font-size: 1.2rem;
+}
+
+.nav__link > img {
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 4px;
+}
+
+.nav__name {
+    font-size: 0.8rem;
+    /* display: none;*/ /* Para diseño minimalista, esconde los nombres */
+}
+
+.active-link {
+    position: relative;
+    color: #ff7b00;
+    transition: .3s;
+}
+
+
+/* HEADER SECTION (Pelicula principal) */
+
+.header {
+    position: relative;  /* relative porque queremos darle una posicion relativa para que "suba" y este a la altura (height) del navbar*/
+    margin-top: -68px;
+    height: 100vh; /* 100 % del viewport height */
+    width: 100%;
+}
+
+.header > video {
+    /* que se adapte el video al contenedor definido del header */
+    height: 100%; /* se usa % porque esta definido en el padre */
+    width: 100%;
+    object-fit: cover; /* para que el video este siempre centrado (en ancho y alto de la pantalla) */
+    opacity: 0.65;
+}
+
+.header_information {
+    position: absolute;  /* en el medio del video queremos la informacion*/
+    top: 50%;
+    transform: translate(0,-50%);
+    padding-left: 50px;
+}
+
+.header_information > * {
+    margin-top: 32px;
+}
+
+.header_information > *:first-child {
+    margin-top: 0;
+}
+
+.header_information_type {
+    display: flex;
+    align-items: center;
+}
+
+.header_information_type > img {
+    height: 32px;
+    width: 32px;
+}
+
+.header_information_type > h2 {
+    margin-left: 12px;
+    text-transform: uppercase; /* todo a mayusculas */
+    font-weight: bold;
+    letter-spacing: 10px;
+}
+
+.header_information_text > h1 {
+    font-size: 100px;
+    width: 40vw;
+    line-height: 90px;
+    height: auto;
+}
+
+.header_information_text > h3 {
+    font-size: 18px;
+    width: 60vw;
+}
+
+.header_information_actions {
+    display: flex;
+}
+
+.header_information_actions > button {
+    margin-left: 16px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    outline: 0; /* para que no aparezca el borde como pulsado*/
+    cursor: pointer;
+    padding: 4px 36px;
+    transition: opacity 400ms ease-in;
+}
+
+.header_information_actions > button > i {
+    margin-right: 12px;
+    font-size: 24px;
+    line-height: 0.9;
+}
+
+.header_information_actions > button:first-child {
+    margin-left: 0;
+}
+
+.header_information_actions > button:last-child {
+    background-color: rgba(109,109,110,0.7);
+    color: white;
+}
+
+.header_information_actions > button:hover {
+    opacity: 0.5;
+}
+
+/* MOBILE INFORMATION ACTIONS */
+.mobile_header_information_actions {
+    display: none;
+}
+
+/* MAIN SECTION */
+.main {
+    position: relative;
+    margin-top: -18vh;
+    padding-bottom: 10vh;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    /* Mozilla hide scrollbar */
+    scrollbar-width: none;
+}
+/* Safari y Chrome hide scrollbar */
+.main::-webkit-scrollbar {
+    display: none;
+}
+
+.main > :first-child{
+    background: linear-gradient(to bottom, transparent 6vh, #141414 20vh);
+}
+
+:root {
+    --flecha-size: 3rem;
+    --img-gap: .25rem;
+}
+
+.carousel:not(:first-child) {
+    padding-top: 1.2rem;
+}
+
+.carousel-container {
+    display: flex;
+    justify-content: center;
+}
+
+.slider {
+    --items-per-screen: 4;
+    --slider-index: 0;
+    display: flex;
+    flex-grow: 1;
+    margin: 0 var(--img-gap);
+    transform: translateX(calc(var(--slider-index) * -100%));
+    transition: transform 350ms ease-in-out;
+}
+
+
+.slider > .img_item > a > img {
+    max-width: calc(100% / var(--items-per-screen));
+    aspect-ratio: 16 / 9;
+    position: absolute;
+    border-radius: 1rem;
+    padding: var(--img-gap);
+    opacity: 0.99;
+    top: 0;
+} 
+
+.slider > .img_item {
+    flex: 0 0 calc(100% / var(--items-per-screen));
+    aspect-ratio: 16 / 9;
+    cursor: pointer;
+}
+
+.slider > .img_item > a > img:hover {
+    transform: scale(1.2);
+    z-index: 10;
+}
+
+.flecha {
+    border: none;
+    border-radius: 1rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 5rem;
+    background-color:rgba(0, 0, 0, .25);
+    z-index: 10;
+    margin: var(--img-gap) 0;
+    width: var(--flecha-size);
+    cursor: pointer;
+    font-size: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    line-height: 0;
+    transition: background-color 150ms ease-in-out;
+}
+
+.left-flecha {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.right-flecha {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.flecha:hover,
+.flecha:focus {
+    background-color: rgba(255, 255, 255, .5);
+}
+
+.text {
+    transition: transform 150ms ease-in-out;
+}
+
+.flecha:hover .text,
+.flecha:focus .text {
+    transform: scale(1.2);
+}
+
+.carousel-header {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem calc(var(--img-gap) * 2 + var(--flecha-size));
+}
+
+.title {
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+.progress-bar {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+.progress-item {
+    flex: 0 0 1.5rem;
+    min-width: 1.5rem;
+    height: .5rem;
+    background: rgba(255, 255, 255, .5);
+}
+
+.progress-item.active {
+    background: rgba(255, 255, 255, .9);
+}
+
+
+/* FOOTER SECTION */
+footer {
+    padding: 32px 48px;
+}
+
+footer > * {
+    margin-top: 32px;
+}
+
+footer > *:first-child {
+    margin-top: 0;
+}
+
+footer > .footer_socialmedia > *:not(:first-child) {
+    margin-left: 12px;
+}
+
+footer > .footer_info > ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+footer > .footer_info > ul > li {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 8px 0;
+    flex: 1 0 25%;
+}
+
+footer > .footer_info > ul > li > a {
+    text-decoration: none;
+    color: inherit;
+}
+
+footer > .footer_info > ul > li > a:hover {
+    text-decoration: underline;
+}
+
+footer > .footer_copyright {
+    font-size: 12px;
+    font-weight: normal;
+    color: gray;
+}
+
+
+/* MEDIA QUERIES */
+/* EXTRA LARGE DEVICES */
+@media (min-width: 1201px) {
+    .slider {
+        --items-per-screen: 5; 
+    }
+}
+/* LARGE DEVICES ALREADY DEFINED*/
+
+/* MEDIUM DEVIDES SLIDER */
+@media (max-width: 768px) {
+    .slider {
+        --items-per-screen: 3; 
+    }
+}
+/* SMALL DEVIDES SLIDER */
+@media (max-width: 481px) {
+    .slider {
+        --items-per-screen: 2; 
+    }
+}
+
+/* MEDIUM DEVICES */
+@media screen and (max-width: 992px) { 
+    /* NAVBAR */
+    .navbar_browse {
+        display: none;
+    }
+    #tablet__browse-dropdown {
+        display: flex;
+        margin-left: 32px;
+        flex: 1 0 auto;
+    }
+    #tablet__browse-menu {
+        left: -55px;
+    }
+    .navbar_menu_search > #searchInput {
+        padding: 0;
+        margin-right: 4px;
+    }
+    /* HEADER */
+    .header {
+        height: 95vh;
+    }
+    .header_information_text > h1 {
+        font-size: 60px;
+        width: 62vw;
+    }
+    .header_information_text > h3 {
+        font-size: 14px;
+        width: 80vw;
+    }
+    .header_information {
+        padding-left: 24px;
+        top: 48%;
+    }
+    .header_information > * {
+        margin-top: 1.4rem;
+    }
+    
+    .header_information_type > img {
+        height: 1.8rem;
+        width: 1.8rem;
+    }
+    .header_information_type > h2 {
+        font-size: 23px;
+    }
+    .header > video {
+        height: 85%;
+    }
+
+    .header_information_actions {
+        display: none;
+    }
+    .mobile_header_information_actions {
+        /* si pongo display block se queda trabado como column */
+        display: flex;
+        justify-content: space-around;
+        padding: 0;
+        width: 90vw;
+        /* padding: 0; para que esten alineados a los bordes mi lista y info (Aplicar en dispositivos menores de 600px) */
+    }
+    .mobile_header_information_actions > button {
+        margin-left: 0px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: bold;
+        outline: 0;
+        cursor: pointer;
+        padding: 4px 10px;
+        transition: opacity 400ms ease-in;
+    }
+
+    .mobile_header_information_actions > button > i {
+        margin-right: 12px;
+        font-size: 24px;
+        line-height: 0.9;
+    }
+    
+    .mobile_header_information_actions > button:first-child {
+        margin-left: 0;
+    }
+    
+    .mobile_header_information_actions > button:nth-child(odd) {
+        background-color: transparent;
+        color: white;
+    }
+    
+    .mobile_header_information_actions > button:hover {
+        opacity: 0.5;
+    }
+    /* MAIN */
+    .main {
+        margin-top: -24vh;
+        padding-bottom: 7.5vh;
+    }
+    .main > :first-child {
+        background: linear-gradient(to bottom, transparent 1vh, #141414 10vh);
+    }
+    :root {
+        --flecha-size: 2.25rem;
+        --img-gap: .1875rem;
+    }
+    .title {
+        font-size: 1.4rem;
+    }
+    .flecha {
+        font-size: 3.75rem;
+    }
+    .progress-item {
+        flex: 0 0 1.4rem;
+        min-width: 1.4rem;
+        height: .375rem;
+    }
+
+    /* FOOTER */
+    footer {
+        padding: 24px 44px;
+    }
+    footer > .footer_info {
+        margin-top: 26px;
+    }
+    footer > .footer_info > ul > li {
+        font-size: 14px;
+    }
+}
+
+/* Small devices */
+@media screen and (max-width: 481px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        border-radius: 0 0 0.8rem 0.8rem;
+    }
+    #tablet__browse-dropdown {
+        display: none;
+    }
+    .bottom__nav {
+        display: block;
+    }
+    .navbar_menu {
+        display: none;
+    }
+    .navbar_browse {
+        display: block;
+        margin-left: 0;
+    }
+    
+    .navbar_browse > ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .navbar_browse > ul > li:first-child {
+        display: none;
+    }
+    
+    
+    /* HEADER */
+    .header {
+        height: 90vh;
+    }
+    .header > video {
+        height: 70%;
+    }
+
+    .header_information {
+        padding-left: 24px;
+        top: 40%;
+    }
+    .header_information > * {
+        margin-top: 1.2rem;
+    }
+    .header_information_type > img {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+    .header_information_type > h2 {
+        font-size: 18px;
+    }
+    .header_information_text > h1 {
+        font-size: 34px;
+        width: 90vw;
+    }
+    .header_information_text > h3 {
+        font-size: 12px;
+        width: 82vw;
+    }
+    .header_information_actions {
+        display: none;
+    }
+    .mobile_header_information_actions {
+        display: flex;
+        justify-content: space-between;
+        padding: 0;
+        width: 90vw;
+    }
+    .mobile_header_information_actions > button {
+        margin-left: 0px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        outline: 0;
+        cursor: pointer;
+        padding: 4px 10px;
+        transition: opacity 400ms ease-in;
+    }
+
+    .mobile_header_information_actions > button > i {
+        margin-right: 12px;
+        font-size: 24px;
+        line-height: 0.9;
+    }
+    
+    .mobile_header_information_actions > button:first-child {
+        margin-left: 0;
+    }
+    
+    .mobile_header_information_actions > button:nth-child(odd) {
+        background-color: transparent;
+        color: white;
+    }
+    
+    .mobile_header_information_actions > button:hover {
+        opacity: 0.5;
+    }
+
+
+    /* MAIN */
+    .main {
+        margin-top: -34vh;
+        padding-bottom: 5vh;
+    }
+    .main > :first-child {
+        background: linear-gradient(to bottom, transparent 1vh, #141414 7vh);
+    }
+    :root {
+        --flecha-size: 1.5rem;
+        --img-gap: .125rem;
+    }
+    .title {
+        font-size: 1.2rem;
+    }
+    .flecha {
+        font-size: 2.5rem;
+    }
+    .progress-item {
+        flex: 0 0 1.2rem;
+        min-width: 1.2rem;
+        height: .25rem;
+      }
+    /* FOOTER */
+    footer {
+        padding: 16px 38px;
+    }
+    footer > .footer_info {
+        margin-top: 14px;
+    }
+    footer > .footer_info > ul > li {
+        flex: 1 0 50%;
+        font-size: 10px;
+    }
+}
